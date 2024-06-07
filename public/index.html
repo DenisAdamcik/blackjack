@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Jack</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>Dealer: <span id="dealer-sum"></span></h2>
+    <div id="dealer-cards"></div>
+
+    <h2>You: <span id="your-sum"></span></h2>
+    <div id="your-cards"></div>
+
+    <br>
+    <button id="hit" disabled>Hit</button>
+    <button id="stay" disabled>Stay</button>
+
+    <div id="betting">
+        <p>Balance: $<span id="balance">100</span></p>
+        <label for="bet-amount">Bet Amount: $</label>
+        <input type="number" id="bet-amount" value="10" min="1">
+        <button id="place-bet">Place Bet</button>
+    </div>
+
+    <p id="blackjack"></p>
+    <p id="results"></p>
+    <p id="game-over"></p>
+
+    <!-- Player name input -->
+    <div id="name-form">
+        <label for="player-name">Enter your name:</label>
+        <input type="text" id="player-name">
+        <button id="submit-name">Submit</button>
+    </div>
+
+    <!-- Play again button -->
+    <div id="play-again"></div>
+
+    <!-- Leaderboard -->
+    <div id="leaderboard">
+        <h2>Leaderboard</h2>
+        <ol id="leaderboard-list"></ol>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        // Function to update the leaderboard dynamically
+        function updateLeaderboard(leaderboard) {
+            const leaderboardList = document.getElementById("leaderboard-list");
+            leaderboardList.innerHTML = '';
+
+            // Sort leaderboard in descending order by maxScore
+            leaderboard.sort((a, b) => b.maxScore - a.maxScore);
+
+            // Display the top players in the leaderboard
+            leaderboard.forEach((player, index) => {
+                if (index < 10) {
+                    const listItem = document.createElement("li");
+                    listItem.innerText = `${player.playerName}: $${player.maxScore}`;
+                    leaderboardList.appendChild(listItem);
+                }
+            });
+        }
+
+        // Fetch leaderboard data from the server and update the UI
+        fetch('/scoreboard.json')
+            .then(response => response.json())
+            .then(data => updateLeaderboard(data))
+            .catch(error => console.error('Error fetching leaderboard:', error));
+    </script>
+</body>
+</html>

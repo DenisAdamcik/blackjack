@@ -1,0 +1,90 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+#game {
+    margin: 50px;
+}
+
+#dealer-cards,
+#your-cards {
+    display: flex;
+    justify-content: center;
+}
+
+#dealer-cards img,
+#your-cards img {
+    height: 175px;
+    width: 125px;
+    margin: 5px;
+    border: 1px solid #000;
+    border-radius: 8px; 
+}
+#hit-button,
+#stand-button,
+#deal-button {
+    width: 100px;
+    height: 50px;
+    font-size: 16px;
+    margin: 10px;
+    border: none;
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#hit-button:hover,
+#stand-button:hover,
+#deal-button:hover {
+    background-color: #0056b3; 
+}
+
+#results {
+    font-size: 18px;
+    margin-top: 20px;
+    color: #dc3545;
+}
+/* Center the leaderboard and style it */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+#leaderboard {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#leaderboard h2 {
+    margin-bottom: 10px;
+}
+
+#leaderboard-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#leaderboard-list li {
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    padding: 10px;
+    width: 200px;
+    text-align: center;
+}
+
+#betting {
+    margin-top: 20px;
+}
+
+#name-form {
+    margin-top: 20px;
+}
+
+#play-again {
+    margin-top: 20px;
+}
