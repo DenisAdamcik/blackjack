@@ -205,12 +205,16 @@ function blackJack() {
 }
 
 function submitName() {
+    // Retrieve player's name from input and trim any extra whitespace
     const playerName = document.getElementById("player-name").value.trim();
+    
+    // Check if the player name is empty
     if (!playerName) {
         alert("Please enter your name.");
         return;
     }
 
+    // Send player's name, balance, and max score to the server
     fetch("/save-score", {
         method: "POST",
         headers: {
@@ -219,23 +223,29 @@ function submitName() {
         body: JSON.stringify({ playerName, balance, maxScore })
     })
     .then(response => {
+        // Check if the response is not ok, throw an error
         if (!response.ok) {
             throw new Error("Failed to save score.");
         }
         return response.json();
     })
     .then(() => {
+        // Notify the user that the score was saved successfully and fetch the updated leaderboard
         alert("Score saved successfully!");
         fetchLeaderboard();
     })
     .catch(error => {
+        // Log the error and notify the user
         console.error("Error saving score:", error);
         alert("Error saving score. Please try again.");
     });
 }
 
 function startGameWithBet() {
+    // Retrieve bet amount from input and convert it to an integer
     bet = parseInt(document.getElementById("bet-amount").value);
+    
+    // Validate the bet amount
     if (isNaN(bet) || bet <= 0) {
         alert("Please enter a valid bet amount.");
         return;
@@ -245,45 +255,51 @@ function startGameWithBet() {
         return;
     }
 
-    // Reset game state
+    // Reset game state variables
     dealerSum = 0;
     yourSum = 0;
     dealerAceCount = 0;
     yourAceCount = 0;
     deck = [];
-    buildDeck();
-    shuffleDeck();
-    document.getElementById("dealer-cards").innerHTML = "";
-    document.getElementById("your-cards").innerHTML = "";
-    document.getElementById("results").innerText = "";
-    document.getElementById("blackjack").innerText = "";
-    document.getElementById("game-over").innerText = "";
-    canHit = true;
+    buildDeck(); // Build a new deck of cards
+    shuffleDeck(); // Shuffle the deck
+    document.getElementById("dealer-cards").innerHTML = ""; // Clear dealer's cards display
+    document.getElementById("your-cards").innerHTML = ""; // Clear player's cards display
+    document.getElementById("results").innerText = ""; // Clear results display
+    document.getElementById("blackjack").innerText = ""; // Clear blackjack display
+    document.getElementById("game-over").innerText = ""; // Clear game-over display
+    canHit = true; // Allow hitting
 
     // Disable bet button and enable game buttons
     document.getElementById("place-bet").disabled = true;
     document.getElementById("hit").disabled = false;
     document.getElementById("stay").disabled = false;
 
+    // Start the game
     startGame();
 }
 
 function fetchLeaderboard() {
+    // Fetch leaderboard data from the server
     fetch("/scoreboard.json")
         .then(response => response.json())
         .then(data => {
             // Sort the data by maxScore in descending order
             const sortedData = data.sort((a, b) => b.maxScore - a.maxScore);
+            // Update the leaderboard display with the sorted data
             updateLeaderboard(sortedData);
         })
         .catch(error => {
+
             console.error("Error fetching leaderboard:", error);
         });
 }
 
 function updateLeaderboard(sortedData) {
+    // Get the leaderboard element
     const leaderboard = document.getElementById("leaderboard");
-    leaderboard.innerHTML = ""; // Clear existing leaderboard
+    // Clear the existing leaderboard
+    leaderboard.innerHTML = ""; 
 
     sortedData.forEach((entry, index) => {
         const listItem = document.createElement("li");
